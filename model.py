@@ -7,7 +7,7 @@ from metircs import MultiLabelAccuracy, MultiLabelF1, MultiLabelPrecision, Multi
 # num_classes = 34
 
 
-def create_model(max_seq_len, num_classes):
+def create_model(max_seq_len, num_classes, loss):
     bert = TFBertModel.from_pretrained('bert-base-multilingual-cased')
     final_dense = tf.keras.layers.Dense(units=num_classes, activation='sigmoid')
 
@@ -20,7 +20,6 @@ def create_model(max_seq_len, num_classes):
     model = keras.Model(inputs=[input_ids, attention_mask], outputs=logits)
     model.build(input_shape=(None, max_seq_len))
 
-    loss = keras.losses.BinaryCrossentropy()
     optimizer = keras.optimizers.Adam()
 
     model.compile(optimizer=optimizer,
