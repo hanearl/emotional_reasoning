@@ -3,11 +3,8 @@ import tensorflow as tf
 from tensorflow import keras
 from metircs import MultiLabelAccuracy, MultiLabelF1, MultiLabelPrecision, MultiLabelRecall
 
-# max_seq_len = 512
-# num_classes = 34
 
-
-def create_model(max_seq_len, num_classes, loss):
+def create_model(loss, max_seq_len=512, num_classes=34):
     bert = TFBertModel.from_pretrained('bert-base-multilingual-cased')
     final_dense = tf.keras.layers.Dense(units=num_classes, activation='sigmoid')
 
