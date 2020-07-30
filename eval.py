@@ -2,12 +2,9 @@ import os
 import json
 import pickle
 import tensorflow as tf
-import numpy as np
 from model import create_model
-from tensorflow import keras
 
 from eval_metric import EvalMetricReport
-import tensorflow_addons as tfa
 import sklearn.metrics as skm
 import argparse
 
@@ -27,7 +24,7 @@ def load_data(path):
 
 dir_list = os.listdir(args.result_dir)
 
-for train_name in ['focal_6_0_0730-1137', 'focal_7_0_0730-1336', 'focal_8_0_0730-1535']:
+for train_name in dir_list:
     # 모델 학습 파라미터 config 정보 load
     result_path = os.path.join(args.result_dir, train_name)
     with open(os.path.join(result_path, 'config.json'), 'r') as f:
@@ -37,11 +34,7 @@ for train_name in ['focal_6_0_0730-1137', 'focal_7_0_0730-1336', 'focal_8_0_0730
     test_x, test_y = load_data(os.path.join(args.data_dir, config['test_set']))
 
     # model load
-    losses = {
-        'bce': keras.losses.BinaryCrossentropy(),
-        'focal': tfa.losses.SigmoidFocalCrossEntropy(alpha=config['alpha'], gamma=config['gamma'])
-    }
-    model = create_model(losses[config['loss']], config['max_seq_len'], config['num_classes'])
+    model = create_model(None, config['max_seq_len'], config['num_classes'])
     model.load_weights(os.path.join(result_path, 'model.h5'))
 
     # predict

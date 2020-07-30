@@ -18,6 +18,8 @@ def create_model(loss, max_seq_len=512, num_classes=34):
     model.build(input_shape=(None, max_seq_len))
 
     optimizer = keras.optimizers.Adam()
+    if not loss:
+        loss = keras.losses.BinaryCrossentropy()
 
     model.compile(optimizer=optimizer,
                   loss=loss,

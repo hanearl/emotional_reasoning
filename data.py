@@ -1,7 +1,6 @@
 import pickle
 import numpy as np
 from skmultilearn.model_selection import iterative_train_test_split
-from transformers import BertTokenizer
 
 
 def raw_data(path):
